@@ -51,11 +51,16 @@ function Letters:new( o )
 	return o
 end
 
-function Letters:displayLetter( letter , xPos, yPos )
-	local letter = display.newImage( lettersSheet, letterMap[letter] );
-	letter.x = xPos
-	letter.y = yPos
-	return letter
+function Letters:displayLetter( letter , xPos, yPos, xScale, yScale )
+	print("display")
+	local letterObj ={}
+	letterObj.shape = display.newImage( lettersSheet, letterMap[letter] );
+	letterObj.shape.x = xPos
+	letterObj.shape.y = yPos
+	letterObj.shape.xScale = xScale
+	letterObj.shape.yScale = yScale
+	letterObj.shape.letter = letter
+	return letterObj
 end
 
 -- function Letters:show(  )
