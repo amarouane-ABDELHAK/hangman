@@ -5,7 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 -- Your code here
-local Letters = require("Litters")
+local Letters = require("Letters")
 
 local centerX, centerY = display.contentCenterX, display.contentCenterY
 local myletter = Letters:new()
