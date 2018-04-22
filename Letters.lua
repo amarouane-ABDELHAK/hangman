@@ -4,6 +4,7 @@ local width, height = 96
 local str = "agmsybhntzciou,djpv.ekqw?flrx!"
 local alphabets = "abcdefghijklmnopqrstuvwxyz"
 local  letterMap = {}
+local centerX, centerY = display.contentCenterX, display.contentCenterY
 function initFrames(  )
 	local x, y, count = -96, -96, 0
 	
@@ -51,14 +52,44 @@ function Letters:new( o )
 	return o
 end
 
-function Letters:displayLetter( letter , xPos, yPos, xScale, yScale )
-	print("display")
+
+function Letters:displayWord( word )
+	local xPos, yPos = 30, (3*centerY/2)
+	local count = 0
+	local objects, checkLetters = {}, {}
+	for i = 1, string.len(word) do
+		local ele = string.sub(word, i, i)
+		if(checkLetters[ele] == nil) then
+			count = count + 1
+		
+			local temp= self:displayLetter(ele, xPos,yPos )
+			if(count % 5 ~= 0) then
+				xPos = xPos+(64)
+			else
+				xPos = 30
+				yPos = yPos + 64
+			
+			end
+
+			objects[count] = temp
+
+			
+			checkLetters[ele] = ele
+		end
+	
+
+	end
+	return objects
+end
+
+function Letters:displayLetter( letter , xPos, yPos )
+	
 	local letterObj ={}
 	letterObj.shape = display.newImage( lettersSheet, letterMap[letter] );
 	letterObj.shape.x = xPos
 	letterObj.shape.y = yPos
-	letterObj.shape.xScale = xScale
-	letterObj.shape.yScale = yScale
+	letterObj.shape.xScale = (0.5/display.contentWidth) * 320
+	letterObj.shape.yScale = (0.5/display.contentHeight) * 480 
 	letterObj.shape.letter = letter
 	return letterObj
 end
