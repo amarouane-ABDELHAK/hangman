@@ -52,18 +52,65 @@ function Letters:new( o )
 	return o
 end
 
+function Letters:getLettersProsition_2( word )
+	LettersXposYpos = {}
+	local xPos, yPos = 30, (3*centerY/2) - 100
+	
+	for i = 1, string.len(word) do
+		
+			local ele = string.sub(word, i, i)
+			
+		
+			if(i % 6 ~= 0) then
+				xPos = xPos+(64)
+			else
 
-function Letters:displayWord( word )
-	local xPos, yPos = 30, (3*centerY/2)
+				xPos = 30+64
+				print("This chaneg",xPos, ele )
+				yPos = yPos + 64
+			
+			end
+
+
+			LettersXposYpos[i] = display.newRect( xPos - 60, yPos - 48, 48, 48 )
+			
+
+
+
+			
+		
+	
+
+	end
+
+	return LettersXposYpos
+	
+end
+
+
+function Letters:getLettersProsition_1( word )
 	local count = 0
 	local objects, checkLetters = {}, {}
+	local xPos, yPos = 30, (3*centerY/2)+15
+	local lettersPosition = {}
 	for i = 1, string.len(word) do
 		local ele = string.sub(word, i, i)
+		if(lettersPosition[ele] == nil) then
+			lettersPosition[ele]=i
+		else
+			lettersPosition[ele]  = lettersPosition[ele]..i
+		end
+	end
+	for i = 1, string.len(word) do
+		local ele = string.sub(word, i, i)
+
 		if(checkLetters[ele] == nil) then
 			count = count + 1
+			
 		
-			local temp= self:displayLetter(ele, xPos,yPos )
+			local temp= self:displayLetter(ele, xPos,yPos, lettersPosition[ele] )
 			if(count % 5 ~= 0) then
+				
 				xPos = xPos+(64)
 			else
 				xPos = 30
@@ -82,7 +129,13 @@ function Letters:displayWord( word )
 	return objects
 end
 
-function Letters:displayLetter( letter , xPos, yPos )
+function Letters:displayWord( word )
+	self:getLettersProsition_2( word )
+	
+	return self:getLettersProsition_1( word )
+end
+
+function Letters:displayLetter( letter , xPos, yPos, lettersPosition )
 	
 	local letterObj ={}
 	letterObj.shape = display.newImage( lettersSheet, letterMap[letter] );
@@ -91,6 +144,8 @@ function Letters:displayLetter( letter , xPos, yPos )
 	letterObj.shape.xScale = (0.5/display.contentWidth) * 320
 	letterObj.shape.yScale = (0.5/display.contentHeight) * 480 
 	letterObj.shape.letter = letter
+	letterObj.shape.lettersPosition = lettersPosition
+
 	return letterObj
 end
 
