@@ -66,7 +66,7 @@ function Letters:getLettersProsition_2( word )
 			else
 
 				xPos = 30+64
-				print("This chaneg",xPos, ele )
+				
 				yPos = yPos + 64
 			
 			end

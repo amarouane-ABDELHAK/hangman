@@ -7,22 +7,33 @@
 -- Your code here
 
 local Letters = require("Letters")
-local word = "helpobik"
+local word = "success"
 local myletter = Letters:new()
 local letterXposYpos = myletter:getLettersProsition_2( word )
 function tapLetter( event )
-	print("You have selected : ", event.target.letter, event.target.lettersPosition )
+	local hasMultiLetters = false
 	
-	-- for i = 1, string.len(event.target.lettersPosition) do
-	local placeHolder = letterXposYpos[event.target.lettersPosition]
-	local x, y = placeHolder.x, placeHolder.y
-	placeHolder:removeSelf( )
+	for i = 1, string.len(event.target.lettersPosition) do
+		local pos = tonumber(string.sub(event.target.lettersPosition, i, i))
+
+		local placeHolder = letterXposYpos[pos]
+		local x, y = placeHolder.x, placeHolder.y
+		local shapeTrasn = event.target
+		if(hasMultiLetters) then
+			
+			shapeTrasn = myletter:displayLetter( event.target.letter , event.target.x, event.target.y, nil ).shape
+		end
+		transition.to( shapeTrasn, { time=1500, x= x, y= y } )
+
+		hasMultiLetters = true
+		
+	end
 	
 
 
-	-- end
-	transition.to( event.target, { time=1500, x= x, y= y } )
-	--TODO Add login If a letter is topped
+
+	
+	--TODO Add logic if USER misses a letter
 end
 
 
