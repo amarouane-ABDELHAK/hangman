@@ -10,6 +10,11 @@ local Letters = require("Letters")
 local word = "success"
 local myletter = Letters:new()
 local letterXposYpos = myletter:getLettersProsition_2( word )
+
+
+local hanger = require("hanger")
+
+
 function tapLetter( event )
 	local hasMultiLetters = false
 	
@@ -29,10 +34,6 @@ function tapLetter( event )
 		
 	end
 	
-
-
-
-	
 	--TODO Add logic if USER misses a letter
 end
 
@@ -43,6 +44,8 @@ for k,v in ipairs(objects) do
 
 	v.shape:addEventListener( "tap", tapLetter )
 end
+
+hanger:draw()
 
 
 
