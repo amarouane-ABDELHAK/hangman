@@ -7,9 +7,9 @@
 -- Your code here
 
 local Letters = require("Letters")
-local word = "words"
+local words = require("words")
 local myletter = Letters:new()
-
+local word = words["easy"][1]["word"]
 
 
 local hanger = require("hanger")

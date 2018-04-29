@@ -185,6 +185,7 @@ function Letters:tap( event )
 	local hasMultiLetters = false
 
 	if(event.target.lettersPosition == nil) then
+		event.target:removeSelf( )
 		print("DRAW PARTS")
 		return
 
