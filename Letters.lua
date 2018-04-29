@@ -1,8 +1,13 @@
+local hanger = require("hanger")
+
 local Letters = {word = "test"}
 local frames = {}
 local width, height = 96
 local str = "agmsybhntzciou,djpv.ekqw?flrx!"
 local alphabets = "abcdefghijklmnopqrstuvwxyz"
+
+local myHanger = hanger:new()
+myHanger:draw()
 
 local  letterMap = {}
 local centerX, centerY = display.contentCenterX, display.contentCenterY
@@ -124,13 +129,6 @@ function Letters:getLettersProsition_2( word )
 
 			LettersXposYpos[i] = display.newRect( xPos - 60, yPos - 48, 48, 48 )
 			
-
-
-
-			
-		
-	
-
 	end
 
 	return LettersXposYpos
@@ -187,8 +185,8 @@ function Letters:tap( event )
 	if(event.target.lettersPosition == nil) then
 		event.target:removeSelf( )
 		print("DRAW PARTS")
+		myHanger:onWrongSelect()		
 		return
-
 	end
 	for i = 1, string.len(event.target.lettersPosition) do
 		local pos = tonumber(string.sub(event.target.lettersPosition, i, i))
