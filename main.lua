@@ -10,7 +10,7 @@ local Letters = require("Letters")
 local words = require("words")
 local myletter = Letters:new()
 local ShowDefinition = require("ShowDefinition")
-wordIndex = math.random( 1,4 )
+wordIndex = math.random( 1,6 )
 local pickedWord = words["easy"][wordIndex]
 local word = pickedWord["word"]
 
