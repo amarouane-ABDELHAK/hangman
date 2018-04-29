@@ -59,7 +59,6 @@ function shuffle(word)
 		
 		word = word..'z'
 	end
-	print("the fuck", word, string.len(word), string.len(word)/2)
 
 	
 	for i = 1, string.len(word)/2 do
@@ -69,7 +68,7 @@ function shuffle(word)
 		shufledWord = shufledWord..letterPair..letterEven
 
 	end
-	print("shufledWord", shufledWord)
+	
   	return shufledWord
 end
 
