@@ -3,6 +3,7 @@ local frames = {}
 local width, height = 96
 local str = "agmsybhntzciou,djpv.ekqw?flrx!"
 local alphabets = "abcdefghijklmnopqrstuvwxyz"
+
 local  letterMap = {}
 local centerX, centerY = display.contentCenterX, display.contentCenterY
 function initFrames(  )
@@ -44,6 +45,55 @@ local lettersOpt =
 };
 
 local lettersSheet = graphics.newImageSheet( "assets/Letters.jpg", lettersOpt );
+
+
+function shuffle(word)
+	local shufledWord = ""
+	local wordLength = string.len(word)
+	if(wordLength%2 ~= 0)then
+		
+		word = word..'z'
+	end
+	print("the fuck", word, string.len(word), string.len(word)/2)
+
+	
+	for i = 1, string.len(word)/2 do
+		letterEven = string.sub(word, i, i)
+		letterPair = string.sub(word, wordLength-i+1, wordLength-i+1)
+
+		shufledWord = shufledWord..letterPair..letterEven
+
+	end
+	print("shufledWord", shufledWord)
+  	return shufledWord
+end
+
+function letterInWord(word, letter)
+	for i = 1, string.len(word) do
+		if(letter == string.sub(word, i, i)) then
+			return true
+		end
+  	end
+  	return false
+end
+
+
+function Letters:getRandomLetters(word, numOfLetters)
+	local pos = math.random( 1,26 )
+	local count = 0
+	while count < numOfLetters do
+		
+		rand = math.random( 1,26 )
+		
+		if(not letterInWord(word, string.sub(alphabets, rand, rand)) ) then
+			word  = word..string.sub(alphabets, rand, rand)
+
+			count = count + 1
+		end
+	end
+	print("word", word)
+	return shuffle(word)
+end
 
 function Letters:new( o )
 	o = o or {}
@@ -101,6 +151,8 @@ function Letters:getLettersProsition_1( word )
 			lettersPosition[ele]  = lettersPosition[ele]..i
 		end
 	end
+	
+	word = self:getRandomLetters(word, 4)
 	for i = 1, string.len(word) do
 		local ele = string.sub(word, i, i)
 
@@ -129,8 +181,35 @@ function Letters:getLettersProsition_1( word )
 	return objects
 end
 
+function Letters:tap( event )
+	local hasMultiLetters = false
+
+	if(event.target.lettersPosition == nil) then
+		print("DRAW PARTS")
+		return
+
+	end
+	for i = 1, string.len(event.target.lettersPosition) do
+		local pos = tonumber(string.sub(event.target.lettersPosition, i, i))
+
+		local placeHolder = self.letterXposYpos[pos]
+		local x, y = placeHolder.x, placeHolder.y
+		local shapeTrasn = event.target
+		if(hasMultiLetters) then
+			
+			shapeTrasn = self:displayLetter( event.target.letter , event.target.x, event.target.y, nil ).shape
+		end
+		transition.to( shapeTrasn, { time=1500, x= x, y= y } )
+
+		hasMultiLetters = true
+		
+	end
+	
+	--TODO Add logic if USER misses a letter
+end
+
 function Letters:displayWord( word )
-	self:getLettersProsition_2( word )
+	self.letterXposYpos = self:getLettersProsition_2( word )
 	
 	return self:getLettersProsition_1( word )
 end
