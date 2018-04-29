@@ -9,7 +9,9 @@
 local Letters = require("Letters")
 local words = require("words")
 local myletter = Letters:new()
-local word = words["easy"][1]["word"]
+
+wordIndex = math.random( 1,4 )
+local word = words["easy"][wordIndex]["word"]
 
 
 local hanger = require("hanger")
