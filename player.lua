@@ -4,7 +4,6 @@ function Player:new( o )
 	o = o or {}
 	setmetatable( o, self )
 	self.__index = self
-	self.scoreText=display.newEmbossedText( "Score: 0", 200, 50,
                              native.systemFont, 30 );
     self.scoreText:setFillColor( 0,0.5,0 );
     self.scoreText:setEmbossColor( color );

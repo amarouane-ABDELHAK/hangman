@@ -187,6 +187,7 @@ function Letters:tap( event )
 	if(event.target.lettersPosition == nil) then
 		event.target:removeSelf( )
 		print("DRAW PARTS")
+		print("Maintain the wrong values !!")
 		myHanger:onWrongSelect()
 		
 		
