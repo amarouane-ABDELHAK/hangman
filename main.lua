@@ -13,13 +13,12 @@ local ShowDefinition = require("ShowDefinition")
 wordIndex = math.random( 1,6 )
 local pickedWord = words["easy"][wordIndex]
 local word = pickedWord["word"]
-local player = require("player")
+
 
 local definition = ShowDefinition:new({xPos =10, yPos=display.actualContentHeight -100})
 definition:show(pickedWord["definition"])
 
-local playerScore = player:new({xPos = 0, yPos=0})
-playerScore:displayScore(9)
+
 local objects = myletter:displayWord(word)
 for k,v in ipairs(objects) do
 

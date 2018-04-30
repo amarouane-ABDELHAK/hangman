@@ -1,4 +1,4 @@
-local Player = {score = 0, xPos = 0, yPos = 0}
+local Player = {score = 0, xPos = 0, yPos = 0, tries = 0}
 
 function Player:new( o )
 	o = o or {}
@@ -8,17 +8,17 @@ function Player:new( o )
                              native.systemFont, 30 );
     self.scoreText:setFillColor( 0,0.5,0 );
     self.scoreText:setEmbossColor( color );
+    self.scoreText.anchorX = 0
+	self.scoreText.anchorY = 0
 	return o
 end
 function Player:displayScore( score )
+
+	self.score = self.score + score
 	
-	self.scoreText.anchorX = 0
-	self.scoreText.anchorY = 0
 	self.scoreText.x = self.xPos
 	self.scoreText.y = self.yPos
-	self.scoreText.text = "Score: "..score
-	
-    
+	self.scoreText.text = "Score: "..self.score	
 
 end
 

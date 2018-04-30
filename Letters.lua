@@ -5,7 +5,9 @@ local frames = {}
 local width, height = 96
 local str = "agmsybhntzciou,djpv.ekqw?flrx!"
 local alphabets = "abcdefghijklmnopqrstuvwxyz"
-
+local player = require("player")
+local playerScore = player:new({xPos = 0, yPos=0})
+playerScore:displayScore(0)
 local myHanger = hanger:new()
 myHanger:draw()
 
@@ -180,16 +182,20 @@ end
 
 function Letters:tap( event )
 	local hasMultiLetters = false
+	
 
 	if(event.target.lettersPosition == nil) then
 		event.target:removeSelf( )
 		print("DRAW PARTS")
-		myHanger:onWrongSelect()		
+		myHanger:onWrongSelect()
+		
+		
+
 		return
 	end
 	for i = 1, string.len(event.target.lettersPosition) do
 		local pos = tonumber(string.sub(event.target.lettersPosition, i, i))
-
+		playerScore.tries = playerScore.tries + 1
 		local placeHolder = self.letterXposYpos[pos]
 		local x, y = placeHolder.x, placeHolder.y
 		local shapeTrasn = event.target
@@ -203,10 +209,16 @@ function Letters:tap( event )
 		
 	end
 	
+	if(playerScore.tries ==  string.len(self.ChosedWord)) then
+		playerScore:displayScore(1)
+		print("SHOW NEXT WORD")
+	end
+	
 	--TODO Add logic if USER misses a letter
 end
 
 function Letters:displayWord( word )
+	self.ChosedWord = word
 	self.letterXposYpos = self:getLettersProsition_2( word )
 	
 	return self:getLettersProsition_1( word )
