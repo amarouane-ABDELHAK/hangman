@@ -31,9 +31,9 @@ words["hard"] ={
 		definition= "a way of approaching a problem or making progress toward something", 
 		phrase = "three possible avenues of research suggested themselves."
 	}, 
-	{	word = "avenue", 
-		definition= "a way of approaching a problem or making progress toward something", 
-		phrase = "three possible avenues of research suggested themselves."
+	{	word = "road", 
+		definition= "a wide way leading from one place to another.", 
+		phrase = "one way can have multiple roads."
 	},
 	{
 		word = "strength", 
@@ -41,9 +41,9 @@ words["hard"] ={
 		phrase = "the strengths and weaknesses of their sales and marketing operation."
 	},
 	{
-		word = "strength", 
-		definition= "a good or beneficial quality or attribute of a person or thing.", 
-		phrase = "the strengths and weaknesses of their sales and marketing operation."
+		word = "power", 
+		definition= "the ability to do something or act in a particular way, especially as a faculty or quality.", 
+		phrase = "the politicians get drunk with power not with booze"
 	},
 	{
 		word = "vortex", 
