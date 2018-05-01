@@ -8,7 +8,9 @@ local str = "agmsybhntzciou,djpv.ekqw?flrx!"
 local alphabets = "abcdefghijklmnopqrstuvwxyz"
 local player = require("player")
 local playerScore = player:new({xPos = 0, yPos=0})
-
+local physics = require("physics")
+physics.start( )
+physics.setGravity( 0, 2 )
 local highScore = require("highscore")
 local myHighScore = highScore:new()
 playerScore:displayScore(0)
@@ -220,9 +222,16 @@ function Letters:tap( event )
 		audio.play( wrongSelect, { channel=1 } )
 		myHanger:onWrongSelect()
 		if(myHanger.wrongSelectionCount >= 5) then
-			print("GameOver", myHanger.wrongSelectionCount)
-			hangedMan = display.newImage("assets/hanged.jpg", centerX, centerY)
-			gameOver = display.newImage("assets/gameOver.png", centerX, centerY)
+			local buttomBar = display.newRect( centerX, 900, display.contentWidth, 20 )
+
+   			local hangedMan = display.newImage("assets/hanged.jpg", centerX, centerY)
+			gameOver = display.newImage("assets/gameOver.png", centerX, 0)
+			physics.addBody( gameOver, "dynamic",{ density=1, friction=0.3, bounce=0.95} )
+			physics.addBody( buttomBar, "static" )
+			hangedMan.xScale = 2
+			hangedMan.yScale = 2
+			gameOver.xScale = 0.5
+			gameOver.yScale = 0.5
 			hangedMan.xScale = 2
 			hangedMan.yScale = 2
 		end
