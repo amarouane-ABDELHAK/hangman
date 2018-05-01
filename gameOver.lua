@@ -13,6 +13,17 @@ physics.setGravity( 0, 2 )
 -- local forward references should go here
  
 ---------------------------------------------------------------------------------
+
+-- Change to menu scene --
+function gotoMenu(event)
+   display.setDefault( "background", 0, 0, 0 )
+   composer.setVariable( "selectedTime", selectedTime)
+   local goToSceneOptions = {
+      effect = "fade",
+      time = 300
+   }
+   composer.gotoScene( "title", goToSceneOptions)
+end
  
 -- "scene:create()"
 function scene:create( event )
@@ -39,15 +50,24 @@ function scene:show( event )
    	local w,h = display.contentWidth, display.contentHeight
    	local buttomBar = display.newRect( centerX, 900, w, 20 )
 
-   	hangedMan = display.newImage("assets/hanged.jpg", centerX, centerY)
-			gameOver = display.newImage("assets/gameOver.png", centerX, 0)
-			physics.addBody( gameOver, "dynamic",{ density=1, friction=0.3, bounce=0.95} )
-			physics.addBody( buttomBar, "static" )
-			hangedMan.xScale = 2
-			hangedMan.yScale = 2
-			gameOver.xScale = 0.5
-			gameOver.yScale = 0.5
+   	hangedMan = display.newImage(sceneGroup,"assets/hanged.jpg", centerX, centerY)
+	
+	 menuButton = display.newImage (sceneGroup,"assets/menu.png",174,172);
+      menuButton.x = centerX
+      menuButton.y = centerY + 100
+      menuButton.xScale = 0.40
+      menuButton.yScale = 0.40
 
+      menuButton:addEventListener( "tap", gotoMenu )   
+	
+	gameOver = display.newImage(sceneGroup,"assets/gameOver.png", centerX, 0)
+	physics.addBody( gameOver, "dynamic",{ density=1, friction=0.3, bounce=0.95} )
+	physics.addBody( buttomBar, "static" )
+	hangedMan.xScale = 2
+	hangedMan.yScale = 2
+	gameOver.xScale = 0.5
+	gameOver.yScale = 0.5
+			
       
       -- Called when the scene is now on screen.
       -- Insert code here to make the scene come alive.
