@@ -50,12 +50,11 @@ function scene:show( event )
       objects = myletter:displayWord(word)
       print("CALIING THIS METHOD")
       for k,v in ipairs(objects) do
-         if(v.shape.x ~= nil) then
-            print("Malha", v.shape.letter)
+         
             v.shape:addEventListener( "tap", myletter )
 
-            sceneGroup:insert( v.shape )
-         end
+            
+        
       end
  
       print("phase show", phase)
@@ -72,7 +71,7 @@ function scene:hide( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
-      --sceneGroup:removeSelf( )
+     
    elseif ( phase == "did" ) then
       
       

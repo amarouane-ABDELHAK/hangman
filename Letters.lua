@@ -9,6 +9,9 @@ local alphabets = "abcdefghijklmnopqrstuvwxyz"
 local player = require("player")
 local playerScore = player:new({xPos = 0, yPos=0})
 local physics = require("physics")
+
+local garbageCleaner = {}
+local countObects = 1
 physics.start( )
 physics.setGravity( 0, 2 )
 local highScore = require("highscore")
@@ -31,10 +34,24 @@ function gotoLevel(lev)
       effect = "crossFade",
       time = 1400,   
    }
+
+   for k,v in ipairs(garbageCleaner) do
+         
+            v:removeSelf( )       
+        
+      end
+      garbageCleaner = {}
+      countObects = 1
+
+   
    composer.gotoScene( "game", goToSceneOptions)
 end
 
-
+function append(object, element)
+	object[countObects] = element
+	countObects = countObects + 1
+	return object
+end
 -- Go nto game over -- 
 function gotoGameOver()
    display.setDefault( "background", 0, 0, 0 )
@@ -240,12 +257,14 @@ function Letters:tap( event )
 
 		return
 	end
+	hasMultiLetters = false
 	for i = 1, string.len(event.target.lettersPosition) do
 		local pos = tonumber(string.sub(event.target.lettersPosition, i, i))
 		playerScore.tries = playerScore.tries + 1
 		local placeHolder = self.letterXposYpos[pos]
 		local x, y = placeHolder.x, placeHolder.y
 		local shapeTrasn = event.target
+		
 		if(hasMultiLetters) then
 			
 			shapeTrasn = self:displayLetter( event.target.letter , event.target.x, event.target.y, nil ).shape
@@ -255,9 +274,11 @@ function Letters:tap( event )
 		end } )
 
 		hasMultiLetters = true
+		garbageCleaner = append(garbageCleaner, shapeTrasn)
+
 		
 	end
-	print("TRIES", myHanger.wrongSelectionCount)
+	
 	
 	if(playerScore.tries ==  string.len(self.ChosedWord) and myHanger.wrongSelectionCount <= 4) then
 		playerScore.tries = 0
