@@ -14,6 +14,7 @@ function Player:new( o )
 	self.heighSCore=display.newEmbossedText( "High: "..myHighScore:getHigScore(), 210, 0,native.systemFont, 30 );
     self.heighSCore:setFillColor( 1,0,0 );
     self.heighSCore:setEmbossColor( color );
+    self.myHighScore = myHighScore
     self.heighSCore.anchorX = 0
 	self.heighSCore.anchorY = 0
 	return o

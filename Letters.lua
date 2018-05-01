@@ -12,7 +12,7 @@ local physics = require("physics")
 physics.start( )
 physics.setGravity( 0, 2 )
 local highScore = require("highscore")
-local myHighScore = highScore:new()
+
 playerScore:displayScore(0)
 local myHanger = hanger:new()
 myHanger:draw()
@@ -257,16 +257,17 @@ function Letters:tap( event )
 		hasMultiLetters = true
 		
 	end
+	print("TRIES", myHanger.wrongSelectionCount)
 	
-	if(playerScore.tries ==  string.len(self.ChosedWord) and myHanger.wrongSelectionCount < 4) then
+	if(playerScore.tries ==  string.len(self.ChosedWord) and myHanger.wrongSelectionCount <= 4) then
 		playerScore.tries = 0
 		myHanger.wrongSelectionCount = 0
 		
 		playerScore:displayScore(1)
-		print("SCORE",myHighScore:getHigScore(), player.score)
-		if(player.score > myHighScore:getHigScore()) then
+		print("SCORE",player.myHighScore:getHigScore(), player.score)
+		if(player.score > player.myHighScore:getHigScore()) then
 
-			myHighScore:setHigScore(player.score)
+			player.myHighScore:setHigScore(player.score)
 
 		end
 		

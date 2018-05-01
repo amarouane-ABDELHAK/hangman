@@ -6,6 +6,7 @@ local words = require("words")
 local ShowDefinition = require("ShowDefinition")
 local objects
 local definition = ShowDefinition:new({xPos =10, yPos=display.actualContentHeight -100})
+local myletter = Letters:new()
 ---------------------------------------------------------------------------------
 -- All code outside of the listener functions will only be executed ONCE
 -- unless "composer.removeScene()" is called.
@@ -34,22 +35,27 @@ function scene:show( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
-      print("phase show", phase)
+      
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
 
       local wordIndex = math.random( 1,6 )
       local pickedWord = words["easy"][wordIndex]
       local word = pickedWord["word"]
-      local myletter = Letters:new()
+      
       
       
       definition:show(pickedWord["definition"])
 
       objects = myletter:displayWord(word)
+      print("CALIING THIS METHOD")
       for k,v in ipairs(objects) do
+         if(v.shape.x ~= nil) then
+            print("Malha", v.shape.letter)
+            v.shape:addEventListener( "tap", myletter )
 
-         v.shape:addEventListener( "tap", myletter )
+            sceneGroup:insert( v.shape )
+         end
       end
  
       print("phase show", phase)
@@ -66,16 +72,10 @@ function scene:hide( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
-      print("phase hide", phase)
-      -- Called when the scene is on screen (but is about to go off screen).
-      -- Insert code here to "pause" the scene.
-      -- Example: stop timers, stop animation, stop audio, etc.
+      --sceneGroup:removeSelf( )
    elseif ( phase == "did" ) then
       
-      for k,v in ipairs(objects) do
-         
-            v.shape:removeSelf( )
-      end
+      
       -- Called immediately after scene goes off screen.
    end
 end
