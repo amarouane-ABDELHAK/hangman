@@ -8,6 +8,9 @@ local str = "agmsybhntzciou,djpv.ekqw?flrx!"
 local alphabets = "abcdefghijklmnopqrstuvwxyz"
 local player = require("player")
 local playerScore = player:new({xPos = 0, yPos=0})
+
+local highScore = require("highscore")
+local myHighScore = highScore:new()
 playerScore:displayScore(0)
 local myHanger = hanger:new()
 myHanger:draw()
@@ -232,7 +235,13 @@ function Letters:tap( event )
 		myHanger.wrongSelectionCount = 0
 		
 		playerScore:displayScore(1)
-		print("SHOW NEXT WORD", myHanger.wrongSelectionCount)
+		print("SCORE",myHighScore:getHigScore(), player.score)
+		if(player.score > myHighScore:getHigScore()) then
+
+			myHighScore:setHigScore(player.score)
+
+		end
+		
 		gotoLevel(2)
 	end
 	

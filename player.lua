@@ -1,4 +1,6 @@
 local Player = {score = 0, xPos = 0, yPos = 0, tries = 0}
+local highScore = require("highscore")
+local myHighScore = highScore:new()
 
 function Player:new( o )
 	o = o or {}
@@ -9,6 +11,11 @@ function Player:new( o )
     self.scoreText:setEmbossColor( color );
     self.scoreText.anchorX = 0
 	self.scoreText.anchorY = 0
+	self.heighSCore=display.newEmbossedText( "High: "..myHighScore:getHigScore(), 210, 0,native.systemFont, 30 );
+    self.heighSCore:setFillColor( 1,0,0 );
+    self.heighSCore:setEmbossColor( color );
+    self.heighSCore.anchorX = 0
+	self.heighSCore.anchorY = 0
 	return o
 end
 function Player:displayScore( score )
