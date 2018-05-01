@@ -43,6 +43,7 @@ function gotoLevel(lev)
       garbageCleaner = {}
       countObects = 1
 
+
    
    composer.gotoScene( "game", goToSceneOptions)
 end
@@ -233,9 +234,10 @@ function Letters:tap( event )
 	
 
 	if(event.target.lettersPosition == nil) then
+		event.target:removeEventListener( "tap", self )
+
 		event.target:removeSelf( )
-		print("DRAW PARTS")
-		print("Maintain the wrong values !!")
+		
 		audio.play( wrongSelect, { channel=1 } )
 		myHanger:onWrongSelect()
 		if(myHanger.wrongSelectionCount >= 5) then
@@ -282,7 +284,7 @@ function Letters:tap( event )
 	
 	if(playerScore.tries ==  string.len(self.ChosedWord) and myHanger.wrongSelectionCount <= 4) then
 		playerScore.tries = 0
-		myHanger.wrongSelectionCount = 0
+		myHanger.wrongSelectionCount = 1
 		
 		playerScore:displayScore(1)
 		print("SCORE",player.myHighScore:getHigScore(), player.score)
@@ -291,6 +293,8 @@ function Letters:tap( event )
 			player.myHighScore:setHigScore(player.score)
 
 		end
+		myHanger:reset()
+		myHanger.wrongSelectionCount = 1
 		
 		gotoLevel(2)
 	end
