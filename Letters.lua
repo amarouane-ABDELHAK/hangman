@@ -18,6 +18,9 @@ myHanger:draw()
 local  letterMap = {}
 local centerX, centerY = display.contentCenterX, display.contentCenterY
 
+local correctSelect = audio.loadStream( "assets/Correct.wav" )
+local wrongSelect = audio.loadStream( "assets/wrong.wav" )
+
 
 -- Go nextLevel -- 
 function gotoLevel(lev)
@@ -214,6 +217,7 @@ function Letters:tap( event )
 		event.target:removeSelf( )
 		print("DRAW PARTS")
 		print("Maintain the wrong values !!")
+		audio.play( wrongSelect, { channel=1 } )
 		myHanger:onWrongSelect()
 		if(myHanger.wrongSelectionCount >= 5) then
 			print("GameOver", myHanger.wrongSelectionCount)
@@ -259,7 +263,7 @@ function Letters:tap( event )
 		
 		gotoLevel(2)
 	end
-	
+	audio.play( correctSelect, { channel=1 } )
 	--TODO Add logic if USER misses a letter
 end
 
