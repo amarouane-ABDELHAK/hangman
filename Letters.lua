@@ -1,4 +1,5 @@
 local hanger = require("hanger")
+local composer = require( "composer" )
 
 local Letters = {word = "test"}
 local frames = {}
@@ -13,6 +14,17 @@ myHanger:draw()
 
 local  letterMap = {}
 local centerX, centerY = display.contentCenterX, display.contentCenterY
+
+
+-- Go nextLevel -- 
+function gotoLevel(lev)
+   display.setDefault( "background", 0, 0, 0 )
+   local goToSceneOptions = {
+      effect = "crossFade",
+      time = 1400,   
+   }
+   composer.gotoScene( "game", goToSceneOptions)
+end
 function initFrames(  )
 	local x, y, count = -96, -96, 0
 	
@@ -189,6 +201,9 @@ function Letters:tap( event )
 		print("DRAW PARTS")
 		print("Maintain the wrong values !!")
 		myHanger:onWrongSelect()
+		if(myHanger.wrongSelectionCount >= 4) then
+			print("SHow game over")
+		end
 		
 		
 
@@ -204,15 +219,21 @@ function Letters:tap( event )
 			
 			shapeTrasn = self:displayLetter( event.target.letter , event.target.x, event.target.y, nil ).shape
 		end
-		transition.to( shapeTrasn, { time=1500, x= x, y= y } )
+		transition.to( shapeTrasn, { time=1500, x= x, y= y, onComplete= function () placeHolder:removeSelf( )
+			-- body
+		end } )
 
 		hasMultiLetters = true
 		
 	end
 	
-	if(playerScore.tries ==  string.len(self.ChosedWord)) then
+	if(playerScore.tries ==  string.len(self.ChosedWord) and myHanger.wrongSelectionCount < 4) then
+		playerScore.tries = 0
+		myHanger.wrongSelectionCount = 0
+		
 		playerScore:displayScore(1)
-		print("SHOW NEXT WORD")
+		print("SHOW NEXT WORD", myHanger.wrongSelectionCount)
+		gotoLevel(2)
 	end
 	
 	--TODO Add logic if USER misses a letter
