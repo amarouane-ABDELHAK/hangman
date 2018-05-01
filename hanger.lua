@@ -144,13 +144,16 @@ function hanger:draw()
 end
 
 function hanger:onWrongSelect()
+	if(self.wrongSelectionCount == 0 or self.wrongSelectionCount > 4) then
+		self.wrongSelectionCount = 1
+	end
 
 	self.hangerParts[self.wrongSelectionCount].isVisible = true
 	self.wrongSelectionCount = self.wrongSelectionCount + 1;
 end
 
 function hanger:reset()
-	print("Kidding me", self.wrongSelectionCount)
+	
 	for i=1,4 do
 		self.hangerParts[i].isVisible = false
 	end

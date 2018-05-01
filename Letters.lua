@@ -1,4 +1,4 @@
-local hanger = require("hanger")
+
 local composer = require( "composer" )
 
 local Letters = {word = "test"}
@@ -17,8 +17,7 @@ physics.setGravity( 0, 2 )
 local highScore = require("highscore")
 
 playerScore:displayScore(0)
-local myHanger = hanger:new()
-myHanger:draw()
+
 
 local  letterMap = {}
 local centerX, centerY = display.contentCenterX, display.contentCenterY
@@ -32,7 +31,7 @@ function gotoLevel(lev)
    display.setDefault( "background", 0, 0, 0 )
    local goToSceneOptions = {
       effect = "crossFade",
-      time = 1400,   
+      time = 2400,   
    }
 
    for k,v in ipairs(garbageCleaner) do
@@ -42,6 +41,7 @@ function gotoLevel(lev)
       end
       garbageCleaner = {}
       countObects = 1
+
 
 
    
@@ -226,6 +226,7 @@ function Letters:getLettersProsition_1( word )
 	
 
 	end
+	self.mixedWord = word
 	return objects
 end
 
@@ -234,13 +235,20 @@ function Letters:tap( event )
 	
 
 	if(event.target.lettersPosition == nil) then
-		event.target:removeEventListener( "tap", self )
+		print("Klicked",event.target.letter)
+		if(event.target.clicked ~=nil) then
+			return
+		end
+		event.target.clicked = true
 
+		
+
+		--event.target:setFillColor( 1,0,0 )
 		event.target:removeSelf( )
 		
 		audio.play( wrongSelect, { channel=1 } )
-		myHanger:onWrongSelect()
-		if(myHanger.wrongSelectionCount >= 5) then
+		self.myHanger:onWrongSelect()
+		if(self.myHanger.wrongSelectionCount >= 5) then
 			local buttomBar = display.newRect( centerX, 900, display.contentWidth, 20 )
 
    			local hangedMan = display.newImage("assets/hanged.jpg", centerX, centerY)
@@ -266,6 +274,7 @@ function Letters:tap( event )
 		local placeHolder = self.letterXposYpos[pos]
 		local x, y = placeHolder.x, placeHolder.y
 		local shapeTrasn = event.target
+		garbageCleaner = append(garbageCleaner, shapeTrasn)
 		
 		if(hasMultiLetters) then
 			
@@ -282,19 +291,19 @@ function Letters:tap( event )
 	end
 	
 	
-	if(playerScore.tries ==  string.len(self.ChosedWord) and myHanger.wrongSelectionCount <= 4) then
+	if(playerScore.tries ==  string.len(self.ChosedWord) and self.myHanger.wrongSelectionCount <= 4) then
 		playerScore.tries = 0
-		myHanger.wrongSelectionCount = 1
+		self.myHanger.wrongSelectionCount = 1
 		
 		playerScore:displayScore(1)
-		print("SCORE",player.myHighScore:getHigScore(), player.score)
+		
 		if(player.score > tonumber(player.myHighScore:getHigScore())) then
 
 			player.myHighScore:setHigScore(player.score)
 
 		end
-		myHanger:reset()
-		myHanger.wrongSelectionCount = 1
+		self.myHanger:reset()
+		self.myHanger.wrongSelectionCount = 1
 		
 		gotoLevel(2)
 	end

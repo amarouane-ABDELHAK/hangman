@@ -24,6 +24,34 @@ local words ={}
 			definition= "Exertion or effort directed to produce or accomplish something; labor; toil." ,
 			phrase = "Team work is important; it helps to put the blame on someone else."
 		},
+		{	word = "avenue", 
+		definition= "a way of approaching a problem or making progress toward something", 
+		phrase = "three possible avenues of research suggested themselves."
+	}, 
+	{	word = "road", 
+		definition= "a wide way leading from one place to another.", 
+		phrase = "one way can have multiple roads."
+	},
+	{
+		word = "strength", 
+		definition= "a good or beneficial quality or attribute of a person or thing.", 
+		phrase = "the strengths and weaknesses of their sales and marketing operation."
+	},
+	{
+		word = "power", 
+		definition= "the ability to do something or act in a particular way, especially as a faculty or quality.", 
+		phrase = "the politicians get drunk with power not with booze"
+	},
+	{
+		word = "vortex", 
+		definition= "a mass of whirling fluid or air, especially a whirlpool or whirlwind.", 
+		phrase = "a whirling vortex of smoke."
+	},
+	{
+		word = "luxury", 
+		definition= "the state of great comfort and extravagant living.", 
+		phrase = "we'll live in great comfort."
+	}
 	}
 
 words["hard"] ={

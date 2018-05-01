@@ -1,12 +1,18 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+require "try-catch"
+
+local hanger = require("hanger")
+local myHanger = hanger:new()
 local Letters = require("Letters")
 local words = require("words")
 local ShowDefinition = require("ShowDefinition")
 local objects
 local definition = ShowDefinition:new({xPos =10, yPos=display.actualContentHeight -100})
 local myletter = Letters:new()
+myHanger:draw()
+myletter.myHanger = myHanger
 ---------------------------------------------------------------------------------
 -- All code outside of the listener functions will only be executed ONCE
 -- unless "composer.removeScene()" is called.
@@ -39,7 +45,7 @@ function scene:show( event )
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
 
-      local wordIndex = math.random( 1,6 )
+      local wordIndex = math.random( 1,12 )
       local pickedWord = words["easy"][wordIndex]
       local word = pickedWord["word"]
       
@@ -48,7 +54,8 @@ function scene:show( event )
       definition:show(pickedWord["definition"])
 
       objects = myletter:displayWord(word)
-      print("CALIING THIS METHOD")
+
+      
       for k,v in ipairs(objects) do
          
             v.shape:addEventListener( "tap", myletter )
@@ -57,7 +64,7 @@ function scene:show( event )
         
       end
  
-      print("phase show", phase)
+      
       -- Called when the scene is now on screen.
       -- Insert code here to make the scene come alive.
       -- Example: start timers, begin animation, play audio, etc.
@@ -71,8 +78,26 @@ function scene:hide( event )
    local phase = event.phase
  
    if ( phase == "will" ) then
+      for k,v in ipairs(objects) do
+         try {
+         function()
+            v.shape:removeSelf( )
+       end,
+
+         catch {
+      function(error)
+         print('caught error: ' .. error)
+      end
+         }
+         }
+            
+
+            
+        
+      end
      
    elseif ( phase == "did" ) then
+      
       
       
       -- Called immediately after scene goes off screen.
