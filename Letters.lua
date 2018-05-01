@@ -28,6 +28,17 @@ function gotoLevel(lev)
    }
    composer.gotoScene( "game", goToSceneOptions)
 end
+
+
+-- Go nto game over -- 
+function gotoGameOver()
+   display.setDefault( "background", 0, 0, 0 )
+   local goToSceneOptions = {
+      effect = "crossFade",
+      time = 1400,   
+   }
+   composer.gotoScene( "gameOver", goToSceneOptions)
+end
 function initFrames(  )
 	local x, y, count = -96, -96, 0
 	
@@ -204,8 +215,12 @@ function Letters:tap( event )
 		print("DRAW PARTS")
 		print("Maintain the wrong values !!")
 		myHanger:onWrongSelect()
-		if(myHanger.wrongSelectionCount >= 4) then
-			print("SHow game over")
+		if(myHanger.wrongSelectionCount >= 5) then
+			print("GameOver", myHanger.wrongSelectionCount)
+			hangedMan = display.newImage("assets/hanged.jpg", centerX, centerY)
+			gameOver = display.newImage("assets/gameOver.png", centerX, centerY)
+			hangedMan.xScale = 2
+			hangedMan.yScale = 2
 		end
 		
 		

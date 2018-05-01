@@ -1,11 +1,10 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
-
-local Letters = require("Letters")
-local words = require("words")
-local ShowDefinition = require("ShowDefinition")
-local objects
-local definition = ShowDefinition:new({xPos =10, yPos=display.actualContentHeight -100})
+local centerX, centerY = display.contentCenterX, display.contentCenterY
+local physics = require("physics")
+physics.start( )
+physics.setGravity( 0, 2 )
+--physics.setDrawMode( "hybrid" )
 ---------------------------------------------------------------------------------
 -- All code outside of the listener functions will only be executed ONCE
 -- unless "composer.removeScene()" is called.
@@ -37,22 +36,19 @@ function scene:show( event )
       print("phase show", phase)
       -- Called when the scene is still off screen (but is about to come on screen).
    elseif ( phase == "did" ) then
+   	local w,h = display.contentWidth, display.contentHeight
+   	local buttomBar = display.newRect( centerX, 900, w, 20 )
 
-      local wordIndex = math.random( 1,6 )
-      local pickedWord = words["easy"][wordIndex]
-      local word = pickedWord["word"]
-      local myletter = Letters:new()
+   	hangedMan = display.newImage("assets/hanged.jpg", centerX, centerY)
+			gameOver = display.newImage("assets/gameOver.png", centerX, 0)
+			physics.addBody( gameOver, "dynamic",{ density=1, friction=0.3, bounce=0.95} )
+			physics.addBody( buttomBar, "static" )
+			hangedMan.xScale = 2
+			hangedMan.yScale = 2
+			gameOver.xScale = 0.5
+			gameOver.yScale = 0.5
+
       
-      
-      definition:show(pickedWord["definition"])
-
-      objects = myletter:displayWord(word)
-      for k,v in ipairs(objects) do
-
-         v.shape:addEventListener( "tap", myletter )
-      end
- 
-      print("phase show", phase)
       -- Called when the scene is now on screen.
       -- Insert code here to make the scene come alive.
       -- Example: start timers, begin animation, play audio, etc.
@@ -64,6 +60,7 @@ function scene:hide( event )
  
    local sceneGroup = self.view
    local phase = event.phase
+
  
    if ( phase == "will" ) then
       print("phase hide", phase)
@@ -72,10 +69,6 @@ function scene:hide( event )
       -- Example: stop timers, stop animation, stop audio, etc.
    elseif ( phase == "did" ) then
       
-      for k,v in ipairs(objects) do
-         
-            v.shape:removeSelf( )
-      end
       -- Called immediately after scene goes off screen.
    end
 end
