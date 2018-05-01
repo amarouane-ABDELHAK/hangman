@@ -288,7 +288,7 @@ function Letters:tap( event )
 		
 		playerScore:displayScore(1)
 		print("SCORE",player.myHighScore:getHigScore(), player.score)
-		if(player.score > player.myHighScore:getHigScore()) then
+		if(player.score > tonumber(player.myHighScore:getHigScore())) then
 
 			player.myHighScore:setHigScore(player.score)
 
