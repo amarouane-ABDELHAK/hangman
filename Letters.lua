@@ -48,6 +48,15 @@ function gotoLevel(lev)
    composer.gotoScene( "game", goToSceneOptions)
 end
 
+function completed()
+	local nextButton = display.newImage("assets/next.png", centerX, centerY + 65)
+	nextButton:scale(0.35,0.35)
+	nextButton:addEventListener( "tap", function() 
+											nextButton:removeSelf() 
+											gotoLevel(2)
+											end )
+end
+
 function append(object, element)
 	object[countObects] = element
 	countObects = countObects + 1
@@ -305,7 +314,10 @@ function Letters:tap( event )
 		self.myHanger:reset()
 		self.myHanger.wrongSelectionCount = 1
 		
-		gotoLevel(2)
+		timer.performWithDelay( 1500, function() completed() end )
+		
+		--completed()		
+		--gotoLevel(2)
 	end
 	audio.play( correctSelect, { channel=1 } )
 	--TODO Add logic if USER misses a letter
